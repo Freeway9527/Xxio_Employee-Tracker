@@ -50,14 +50,6 @@ VALUES
 ('Sephiroth', 'Hojo', 12, 10, NULL),
 ('Cid', 'Highwind', 9, 3, NULL),
 ('Genesis', 'Rhapsodos', 13, NULL),
-('Tifa', 'Lockhart', 3, NULL),
-('Cait', 'Sith', 7, NULL),
-('Vincent', 'Valentine', 8, NULL),
-('Angeal', 'Hewley', 14, NULL),
-('Professor', 'Hojo', 11, NULL);
-('Cait', 'Sith', 2),
-('Vincent', 'Valentine', 5),
-('Professor', 'Hojo', 4),
-('Angeal', 'Hewley', 5);
+
 
 
