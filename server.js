@@ -4,6 +4,8 @@ const mysql = require('mysql2');
 const cTable = require('console.table');
 const chalk = require('chalk');
 
+require('dotenv').config();
+
 // Connect to database
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -18,6 +20,7 @@ connection.connect((err) => {
     connectionApprove();
 });
 //shows a welcome message when connection is established
+
 connectionApprove = () => {
     console.log("==============================================");
     console.log("==============================================");
@@ -108,3 +111,4 @@ const menuPrompts = () => {
         });
 
 };
+
