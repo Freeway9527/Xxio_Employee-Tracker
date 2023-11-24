@@ -29,8 +29,8 @@ VALUES
 ('Tifa', 'Lockhart', 1),
 ('Cait', 'Sith', 2),
 ('Vincent', 'Valentine', 5),
-('Angeal', 'Hewley', 5);
-('Professor', 'Hojo', 4),
+('Angeal', 'Hewley', 5),
+('Professor', 'Hojo', 4);
 
 
 INSERT INTO employee (first_name, last_name, role_id, reporting_managerID, manager_id)
@@ -49,7 +49,7 @@ VALUES
 ('Zack', 'Fair', 10, 10, NULL),
 ('Sephiroth', 'Hojo', 12, 10, NULL),
 ('Cid', 'Highwind', 9, 3, NULL),
-('Genesis', 'Rhapsodos', 13, NULL),
+('Genesis', 'Rhapsodos', 13, NULL);
 
 
 
