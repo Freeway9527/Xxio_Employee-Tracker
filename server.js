@@ -233,10 +233,9 @@ const updateEmployeeManagers = () => {
       connection.query("SELECT * FROM managerEmployee", (err, managers) => {
         if (err) console.log(err);
         managers = managers.map((manager) => {
-          console.log(manager.manager_id); //console.log to see data can delete later
           return {
             name: `${manager.first_name} ${manager.last_name}`,
-            value: manager.manager_id, //manager.reporting_managerID
+            value: manager.manager_id, 
           };
         });
         inquirer
@@ -287,11 +286,10 @@ const addNewEmployee = () => {
     });
     connection.query("SELECT * FROM managerEmployee", (err, managers) => {
         if (err) console.log(err);
-        managers = managers.map((manager) => {
-          console.log(manager.manager_id); //console.log to see data can delete later
+        managers = managers.map((manager) => {    
           return {
             name: `${manager.first_name} ${manager.last_name}`,
-            value: manager.manager_id, //manager.reporting_managerID
+            value: manager.manager_id,
           };
         });
       inquirer
