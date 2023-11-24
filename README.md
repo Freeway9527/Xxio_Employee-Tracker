@@ -8,17 +8,16 @@
 
 ## Table of Contents
 1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Technologies](#technologies)
+2. [Technologies](#technologies)
+3. [Usage](#usage)
 4. [Tests](#tests)
 5. [Credits](#credits)
 6. [Contribution](#contribution)
 7. [License](#license)
 8. [Contact](#contact)
 
-## Installation
 
-## Usage
+## Installation
 
 ## Technologies
 <p align="center">
@@ -28,6 +27,10 @@
   <img src="https://img.shields.io/badge/-npm-CB3837?logo=npm&logoColor=white" alt="npm">
   <img src="https://img.shields.io/badge/-Git-orange?logo=Git&logoColor=white" alt="Git">
 </p>
+
+## Usage
+
+
 
 ## Tests
 ## Credits

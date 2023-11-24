@@ -468,6 +468,13 @@ const deleteEmployee = () => {
             message: "Which employee would you like to delete?",
             choices: employees,
           },
+          {
+            type: "confirm",
+            name: "confirmation",
+            message: "Are you sure you want to delete this employee?",
+            // Default answer is set to "No"
+            default: false, 
+          },
         ])
         .then((data) => {
           connection.query(
@@ -501,6 +508,13 @@ const deleteEmployee = () => {
             message: "Which role would you like to delete?",
             choices: roles,
           },
+          {
+            type: "confirm",
+            name: "confirmation",
+            message: "Are you sure you want to delete this role?",
+            // Default answer is set to "No"
+            default: false, 
+          },
         ])
         .then((data) => {
           connection.query(
@@ -533,6 +547,13 @@ const deleteEmployee = () => {
             name: "deleteDepartment",
             message: "Which department would you like to delete?",
             choices: departments,
+          },
+          {
+            type: "confirm",
+            name: "confirmation",
+            message: "Are you sure you want to delete this department?",
+            // Default answer is set to "No"
+            default: false, 
           },
         ])
         .then((data) => {
