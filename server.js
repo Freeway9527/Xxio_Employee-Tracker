@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const express = require("express");
+const e = require("express");
 require("dotenv").config();
 require("console.table");
 
@@ -181,13 +182,55 @@ const viewEmployeesByDepartment = () => {
 
 // Function to view all employees by manager
 const viewEmployeesByManager = () => {
-  const query = "SELECT * FROM employee ORDER BY manager_id DESC";
-  connection.query(query, (err, res) => {
-    if (err) throw err;
-    console.table("\n", res);
-  });
-  menuPrompts();
-};
+    connection.query("SELECT * FROM managerEmployee", (err, managers) => {
+      if (err) console.log(err);
+      managers = managers.map((manager) => {
+        return {
+          name: `${manager.first_name} ${manager.last_name}`,
+          value: manager.manager_id,
+        };
+      });
+  
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "selectManager",
+            message: "Which manager's employees would you like to view?",
+            choices: managers,
+          },
+        ])
+        .then((data) => {
+          const managerId = data.selectManager;
+          const query = `
+            SELECT 
+              e.empid AS ID,
+              e.first_name AS First_Name,
+              e.last_name AS Last_Name,
+              r.title AS Role,
+              d.name AS Department,
+              r.salary AS Salary
+            FROM 
+              employee e
+            LEFT JOIN 
+              role r ON e.role_id = r.id
+            LEFT JOIN 
+              department d ON r.department_id = d.id
+            WHERE 
+              e.manager_id = ?; -- Filter by manager ID
+          `;
+          connection.query(query, [managerId], (err, results) => {
+            if (err) {
+              console.error('Error executing query:', err);
+              return;
+            }
+            console.table('\n', results); 
+            viewEmployeesByManager();
+          });
+        });
+    });
+  };
+  
 
 // Function to update employee role
 const updateEmployeeRole = () => {
