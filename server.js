@@ -477,6 +477,7 @@ const deleteEmployee = () => {
           },
         ])
         .then((data) => {
+            if (data.confirmation === true) {
           connection.query(
             "DELETE FROM employee WHERE empid = ?",
             [data.deleteEmployee],
@@ -486,6 +487,10 @@ const deleteEmployee = () => {
               viewAllEmployees(); 
             }
           );
+        } else {
+            console.log("Deletion canceled.");
+            viewAllEmployees();
+        }
         });
     });
   };
@@ -517,6 +522,8 @@ const deleteEmployee = () => {
           },
         ])
         .then((data) => {
+            // Check to see if user confirmed deletion
+            if (data.confirmation === true) {
           connection.query(
             "DELETE FROM role WHERE id = ?",
             [data.deleteRole],
@@ -526,12 +533,16 @@ const deleteEmployee = () => {
               viewAllRoles(); 
             }
           );
+        }else {
+            console.log("Deletion canceled.");
+            viewAllRoles();
+        }
         });
     });
   }
 
-  // Function to delete department
-  const deleteDepartment = () => {
+// Function to delete department
+const deleteDepartment = () => {
     connection.query("SELECT * FROM department", (err, departments) => {
       if (err) console.log(err);
       departments = departments.map((department) => {
@@ -552,23 +563,30 @@ const deleteEmployee = () => {
             type: "confirm",
             name: "confirmation",
             message: "Are you sure you want to delete this department?",
-            // Default answer is set to "No"
+            // Default answer is "No"
             default: false, 
           },
         ])
         .then((data) => {
-          connection.query(
-            "DELETE FROM department WHERE id = ?",
-            [data.deleteDepartment],
-            (err) => {
-              if (err) throw err;
-              console.log("Department has been successfully deleted!");
-              viewAllDepartments(); 
-            }
-          );
+            // Check to see if user confirmed deletion
+          if (data.confirmation === true) {
+            connection.query(
+              "DELETE FROM department WHERE id = ?",
+              [data.deleteDepartment],
+              (err) => {
+                if (err) throw err;
+                console.log("Department has been successfully deleted!");
+                viewAllDepartments();
+              }
+            );
+          } else {
+            console.log("Deletion canceled.");
+            viewAllDepartments(); 
+          }
         });
     });
-  }
+  };
+  
 
   // Function to view total utilized budget of a department
   const viewTotalBudget = () => {
