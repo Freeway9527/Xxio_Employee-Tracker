@@ -190,6 +190,10 @@ const viewEmployeesByManager = () => {
           value: manager.manager_id,
         };
       });
+
+      // Add an Exit option to the list of managers to return to the main menu
+      const exitOption = { name: "Exit", value: null };
+      managers.push(exitOption);
   
       inquirer
         .prompt([
@@ -202,6 +206,13 @@ const viewEmployeesByManager = () => {
         ])
         .then((data) => {
           const managerId = data.selectManager;
+
+            // Exit button to function
+            if (managerId === null) {
+                menuPrompts();
+                return;
+            }
+
           const query = `
             SELECT 
               e.first_name AS First_Name,
