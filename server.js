@@ -204,12 +204,9 @@ const viewEmployeesByManager = () => {
           const managerId = data.selectManager;
           const query = `
             SELECT 
-              e.empid AS ID,
               e.first_name AS First_Name,
               e.last_name AS Last_Name,
-              r.title AS Role,
-              d.name AS Department,
-              r.salary AS Salary
+              r.title AS Role
             FROM 
               employee e
             LEFT JOIN 
@@ -217,7 +214,7 @@ const viewEmployeesByManager = () => {
             LEFT JOIN 
               department d ON r.department_id = d.id
             WHERE 
-              e.manager_id = ?; -- Filter by manager ID
+              e.reporting_managerID = ?; -- Filter by manager ID
           `;
           connection.query(query, [managerId], (err, results) => {
             if (err) {
