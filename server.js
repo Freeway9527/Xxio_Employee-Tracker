@@ -356,19 +356,27 @@ const updateEmployeeManagers = () => {
 
 // Function to add new employee
 const addNewEmployee = () => {
-    connection.query("SELECT * FROM managerEmployee", (err, managers) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-    
-        // Join manager details with role and department information
-        const managerChoices = managers.map((manager) => {
-          return {
-            name: `${manager.first_name} ${manager.last_name} - ${manager.title} at ${manager.department}`,
-            value: manager.manager_id,
-          };
-        });
+    const managerQuery = `
+    SELECT m.manager_id, m.first_name, m.last_name, r.title AS role, d.name AS department
+    FROM employee m
+    JOIN role r ON m.role_id = r.id
+    JOIN department d ON r.department_id = d.id
+    WHERE m.manager_id IS NOT NULL
+  `;
+  
+    connection.query(managerQuery, (err, managers) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+  
+      // Join manager details with role and department informatio
+      const managerChoices = managers.map((manager) => {
+        return {
+          name: `${manager.first_name} ${manager.last_name} - ${manager.role} at ${manager.department}`,
+          value: manager.manager_id,
+        };
+      });
 
     // Fetch all roles from the database
     connection.query("SELECT * FROM role", (err, roles) => {
