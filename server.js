@@ -699,6 +699,12 @@ const viewTotalBudget = () => {
         value: department.id,
       };
     });
+
+    // Add an Exit option to the list of departments to return to the main menu
+    const exitOption = { name: "Exit", value: null }; 
+
+    departments.push(exitOption);
+
     inquirer
       .prompt([
         {
@@ -709,6 +715,10 @@ const viewTotalBudget = () => {
         },
       ])
       .then((data) => {
+         if (data.selectDepartment === null) {
+           menuPrompts();
+           return;
+         }
         connection.query(
           "SELECT SUM(salary) FROM role WHERE department_id = ?",
           [data.selectDepartment],
