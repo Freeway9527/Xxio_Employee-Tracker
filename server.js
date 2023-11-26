@@ -724,7 +724,7 @@ const viewTotalBudget = () => {
           [data.selectDepartment],
           (err, res) => {
             if (err) throw err;
-            console.log(`Total Budget for the department is: ${res[0].totalbudget}`);
+            console.log(`Total Budget for the department is: ${res[0].totalBudget}`);
             viewTotalBudget();
           }
         );

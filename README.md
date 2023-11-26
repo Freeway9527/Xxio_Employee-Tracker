@@ -6,6 +6,10 @@
 ## Description
 
 
+
+![Alt text](images/employeeTrackerSS.png)
+
+
 ## Table of Contents
 1. [Installation](#installation)
 2. [Technologies](#technologies)
