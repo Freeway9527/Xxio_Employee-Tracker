@@ -720,12 +720,12 @@ const viewTotalBudget = () => {
            return;
          }
         connection.query(
-          "SELECT SUM(salary) FROM role WHERE department_id = ?",
+          "SELECT SUM(salary) AS totalBudget FROM role WHERE department_id = ?",
           [data.selectDepartment],
           (err, res) => {
             if (err) throw err;
-            console.log(res);
-            menuPrompts();
+            console.log(`Total Budget for the department is: ${res[0].totalbudget}`);
+            viewTotalBudget();
           }
         );
       });
