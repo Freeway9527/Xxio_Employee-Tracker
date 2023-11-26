@@ -182,18 +182,31 @@ const viewEmployeesByDepartment = () => {
 
 // Function to view all employees by manager
 const viewEmployeesByManager = () => {
-    connection.query("SELECT * FROM managerEmployee", (err, managers) => {
-      if (err) console.log(err);
-      managers = managers.map((manager) => {
-        return {
-          name: `${manager.first_name} ${manager.last_name}`,
-          value: manager.manager_id,
-        };
-      });
+    connection.query("SELECT manager_id, first_name, last_name FROM managerEmployee", (err, managers) => {
+      if (err) {
+        console.error('Error retriving mangers:', err);
+        return;
+        }
+
+        // Create map to store unique managers names
+        const uniqueManagers = new Map();
+
+        managers.forEach((manager) => {
+            const fullName = `${manager.first_name} ${manager.last_name}`;
+            if (!uniqueManagers.has(fullName)) {
+              uniqueManagers.set(fullName, manager.manager_id);
+            }
+          });
+
+          // Create an array of objects with the unique managers names and IDs
+          const managerChoices = Array.from(uniqueManagers).map(([fullName, managerId]) => ({
+            name: fullName,
+            value: managerId,
+          }));
 
       // Add an Exit option to the list of managers to return to the main menu
       const exitOption = { name: "Exit", value: null };
-      managers.push(exitOption);
+      managerChoices.push(exitOption);
   
       inquirer
         .prompt([
@@ -201,7 +214,7 @@ const viewEmployeesByManager = () => {
             type: "list",
             name: "selectManager",
             message: "Which manager's employees would you like to view?",
-            choices: managers,
+            choices: managerChoices,
           },
         ])
         .then((data) => {
@@ -343,22 +356,34 @@ const updateEmployeeManagers = () => {
 
 // Function to add new employee
 const addNewEmployee = () => {
-  connection.query("SELECT * FROM role", (err, roles) => {
-    if (err) console.log(err);
-    roles = roles.map((role) => {
-      return {
-        name: role.title,
-        value: role.id,
-      };
-    });
     connection.query("SELECT * FROM managerEmployee", (err, managers) => {
-      if (err) console.log(err);
-      managers = managers.map((manager) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+    
+        // Join manager details with role and department information
+        const managerChoices = managers.map((manager) => {
+          return {
+            name: `${manager.first_name} ${manager.last_name} - ${manager.title} at ${manager.department}`,
+            value: manager.manager_id,
+          };
+        });
+
+    // Fetch all roles from the database
+    connection.query("SELECT * FROM role", (err, roles) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      roles = roles.map((role) => {
         return {
-          name: `${manager.first_name} ${manager.last_name}`,
-          value: manager.manager_id,
-        };
-      });
+            name: role.title,
+            value: role.id,
+            };
+        });
+
       inquirer
         .prompt([
           {
@@ -397,11 +422,10 @@ const addNewEmployee = () => {
             type: "list",
             name: "selectManagerId",
             message: "Who is the employee's manager?",
-            choices: managers,
+            choices: managerChoices, 
           },
         ])
         .then((data) => {
-          console.log(data);
           connection.query(
             "INSERT INTO employee SET ?",
             {
@@ -411,7 +435,10 @@ const addNewEmployee = () => {
               reporting_managerID: data.selectManagerId,
             },
             (err) => {
-              if (err) throw err;
+              if (err) {
+                console.log(err);
+                return;
+              }
               console.log("Employee has been added!\n");
               viewAllEmployees();
             }
