@@ -144,7 +144,10 @@ const viewAllEmployees = () => {
 
 // Function view all roles
 const viewAllRoles = () => {
-  const query = "SELECT * FROM role";
+  const query = 
+  `SELECT role.title, role.salary, department.name AS department
+    FROM role
+    JOIN department ON role.department_id = department.id`;
   // Query to view all roles
   connection.query(query, (err, res) => {
     if (err) throw err;
