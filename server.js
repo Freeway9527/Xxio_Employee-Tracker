@@ -315,76 +315,88 @@ const updateEmployeeManagers = () => {
         };
       });
   
-         // Adding an "Exit" option for employees
-         const exitEmployeeOption = { name: "Exit", value: null };
-         employees.push(exitEmployeeOption);
+      // Adding an "Exit" option for employees
+      const exitEmployeeOption = { name: "Exit", value: null };
+      employees.push(exitEmployeeOption);
   
-        // Prompt user to select an employee to update
-         inquirer
-         .prompt([
-           {
-             type: "list",
-             name: "selectEmployee",
-             message: "Which employee would you like to update?",
-             choices: employees,
-           },
-          ])
-          // Check if user selected the "Exit" option
-          .then((employeeData) => {
-            if (employeeData.selectEmployee === null) {
-              menuPrompts();
-              return;
-            }
+      // Prompt user to select an employee to update
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "selectEmployee",
+            message: "Which employee would you like to update?",
+            choices: employees,
+          },
+        ])
   
-      connection.query("SELECT * FROM managerEmployee", (err, managers) => {
-        if (err) console.log(err);
-        managers = managers.map((manager) => {
-          return {
-            name: `${manager.first_name} ${manager.last_name}`,
-            value: manager.manager_id,
-          };
-        });
+        // Check if user selected "Exit" option
+        .then((employeeData) => {
+          if (employeeData.selectEmployee === null) {
+            menuPrompts();
+            return;
+          }
   
-          // Adding an "Exit" option for managers
-          const exitManagerOption = { name: "Exit", value: null };
-          managers.push(exitManagerOption);
+          // Query to select all managers
+          const managerQuery = `
+            SELECT m.manager_id, m.first_name, m.last_name, r.title AS role, d.name AS department
+            FROM employee m
+            JOIN role r ON m.role_id = r.id
+            JOIN department d ON r.department_id = d.id
+            WHERE m.manager_id IS NOT NULL
+          `;
   
-          // Prompt user to select a new manager for enployee
-          inquirer
-          .prompt([
-            {
-              type: "list",
-              name: "selectManager",
-              message: "Who is the employee's new manager?",
-              choices: managers,
-            },
-          ])
-          // Check if user selected the "Exit" option
-          .then ((managerData) => {
-            if (managerData.selectManager === null) {
-              menuPrompts(); 
-              return; 
-            }
+          // Query to select the employee's current manager
+          connection.query(managerQuery, (err, managers) => {
+            if (err) console.log(err);
+            managers = managers.map((manager) => {
+              return {
+                name: `${manager.first_name} ${manager.last_name} - ${manager.role} at ${manager.department}`,
+                value: manager.manager_id,
+              };
+            });
   
-            // Update employee's manager
-            connection.query(
-              "UPDATE employee SET ? WHERE ?",
-              [
+            // Adding an "Exit" option for managers
+            const exitManagerOption = { name: "Exit", value: null };
+            managers.push(exitManagerOption);
+  
+            inquirer
+            // Prompt user to select a new manager
+              .prompt([
                 {
-                  reporting_managerID: managerData.selectManager,
+                  type: "list",
+                  name: "selectManager",
+                  message: "Who is the employee's new manager?",
+                  choices: managers,
                 },
-                { empid: employeeData.selectEmployee },
-              ],
-              function (err) {
-                if (err) throw err;
-            console.log("Employee manager has been updated!");
-            viewEmployeesByManager();
-              }
-            );
+              ])
+              
+              // Check if user selected "Exit" option
+              .then((managerData) => {
+                if (managerData.selectManager === null) {
+                  menuPrompts(); 
+                  return; 
+                }
+  
+                // Update employee's manager
+                connection.query(
+                  "UPDATE employee SET ? WHERE ?",
+                  [
+                    {
+                      reporting_managerID: managerData.selectManager,
+                    },
+                    { empid: employeeData.selectEmployee },
+                  ],
+                  function (err) {
+                    if (err) throw err;
+                    console.log("Employee manager has been updated!");
+                    viewEmployeesByManager();
+                  }
+                );
+              });
           });
-      });
+        });
     });
-  });
   };
 
 // Function to add new employee

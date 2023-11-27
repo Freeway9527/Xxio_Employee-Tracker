@@ -55,6 +55,7 @@ To exit the program select the option `Exit`.
 ![Alt text](assets/images/employeeTrackerss2.png)
 
  Click on the link to watch a video demonstration:
+[Employee Tracker Video Demo](https://drive.google.com/file/d/1Yn7ECBf0QH5Iylax---WXR7FZTMFnvu8/view)
 
 ## Tests
 
