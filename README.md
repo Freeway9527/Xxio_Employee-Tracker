@@ -4,7 +4,7 @@
 </p>
 
 ## Description
-Content Management Systems (CMS) is a Node.js-based application that allows for efficient management. It utilizes an SQL database to store and retrieve employee-related data which allows business to view and manage the departments, roles and employees of their company.
+Content Management Systems (CMS) is a Node.js-based application that allows for efficient management. It utilizes an SQL database to store and retrieve employee-related data which allows business to view and manage their departments, roles and employees of their company.
 
 
 ## Table of Contents
@@ -21,7 +21,7 @@ Content Management Systems (CMS) is a Node.js-based application that allows for 
 
 Make sure that you have Node.js install, if you do not have node.js, you can visit [Node.js website](https://nodejs.org/en) and download node and install it onto your local computer. 
 
-You will also need to add dpendencies, in your terminal type in,
+You will also need to add dpendencies, in your terminal type in:
 
 1. `npm init -y` this will auto create a package.json to store your dependenices.
 
@@ -44,11 +44,11 @@ You will also need to add dpendencies, in your terminal type in,
 
 ## Usage
 
-To run the program, in your teminal type in `npm start`
+To run the program, in your teminal type in `npm start`.
 
-You will be given a seris of menu prompts, follow the prompts for each selection.
+You will be given a series of menu prompts, follow the prompts for each selection.
 
-To exit choose the program select the option `Exit`
+To exit the program select the option `Exit`.
 
 ![Alt text](assets/images/employeeTrackerSS.png)
 
@@ -58,7 +58,7 @@ To exit choose the program select the option `Exit`
 
 ## Tests
 
-There are no unit testing written for this application
+There are no unit testing written for this application.
 
 ## Contribution
 
