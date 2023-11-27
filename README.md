@@ -50,9 +50,9 @@ You will be given a seris of menu prompts, follow the prompts for each selection
 
 To exit choose the program select the option `Exit`
 
-![Alt text](images/employeeTrackerSS.png)
+![Alt text](assets/images/employeeTrackerSS.png)
 
-![Alt text](images/employeeTrackerss2.png)
+![Alt text](assets/images/employeeTrackerss2.png)
 
  Click on the link to watch a video demonstration:
 

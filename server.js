@@ -131,7 +131,7 @@ const viewAllEmployees = () => {
     JOIN  department d ON r.department_id = d.Id
     LEFT JOIN managerEmployee m ON e.reporting_ManagerID = m.manager_id
     `;
-
+    // Query to view all employees
   connection.query(query, (err, results) => {
     if (err) {
       console.error("Error executing query:", err);
@@ -146,6 +146,7 @@ const viewAllEmployees = () => {
 // Function view all roles
 const viewAllRoles = () => {
   const query = "SELECT * FROM role";
+  // Query to view all roles
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table("\n", res);
@@ -156,6 +157,7 @@ const viewAllRoles = () => {
 // Function to view all departments
 const viewAllDepartments = () => {
   const query = "SELECT * FROM department";
+  // Query to view all departments
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table("\n", res);
@@ -173,6 +175,7 @@ const viewEmployeesByDepartment = () => {
       LEFT JOIN role ON employee.role_id = role.id 
       LEFT JOIN department ON role.department_id = department.id
     `;
+    // Query to view all employees by department
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table("\n", res);
@@ -190,7 +193,6 @@ const viewEmployeesByManager = () => {
 
         // Create map to store unique managers names
         const uniqueManagers = new Map();
-
         managers.forEach((manager) => {
             const fullName = `${manager.first_name} ${manager.last_name}`;
             if (!uniqueManagers.has(fullName)) {
@@ -207,7 +209,7 @@ const viewEmployeesByManager = () => {
       // Add an Exit option to the list of managers to return to the main menu
       const exitOption = { name: "Exit", value: null };
       managerChoices.push(exitOption);
-  
+        // Prompt user to select a manager to view employees
       inquirer
         .prompt([
           {
@@ -271,6 +273,7 @@ const updateEmployeeRole = () => {
           value: role.id,
         };
       });
+      // Prompt user to select an employee to update
       inquirer
         .prompt([
           {
@@ -289,6 +292,7 @@ const updateEmployeeRole = () => {
         .then((data) => {
           connection.query(
             "UPDATE employee SET role_id = ? WHERE empid = ?",
+            // Update employee's role
             [data.selectNewRole, data.selectEmployee],
             (err, res) => {
               if (err) console.log(err);
@@ -301,7 +305,6 @@ const updateEmployeeRole = () => {
   });
 };
 
-// Fuction to update employee manager
 // Fuction to update employee manager
 const updateEmployeeManagers = () => {
     connection.query("SELECT * FROM employee", (err, employees) => {
@@ -317,6 +320,7 @@ const updateEmployeeManagers = () => {
          const exitEmployeeOption = { name: "Exit", value: null };
          employees.push(exitEmployeeOption);
   
+        // Prompt user to select an employee to update
          inquirer
          .prompt([
            {
@@ -326,10 +330,9 @@ const updateEmployeeManagers = () => {
              choices: employees,
            },
           ])
-          
+          // Check if user selected the "Exit" option
           .then((employeeData) => {
             if (employeeData.selectEmployee === null) {
-              // If "Exit" option selected for employees, return to main prompts
               menuPrompts();
               return;
             }
@@ -347,6 +350,7 @@ const updateEmployeeManagers = () => {
           const exitManagerOption = { name: "Exit", value: null };
           managers.push(exitManagerOption);
   
+          // Prompt user to select a new manager for enployee
           inquirer
           .prompt([
             {
@@ -356,12 +360,14 @@ const updateEmployeeManagers = () => {
               choices: managers,
             },
           ])
+          // Check if user selected the "Exit" option
           .then ((managerData) => {
             if (managerData.selectManager === null) {
-              menuPrompts(); // Return to the main menu
-              return; // Exit from the function
+              menuPrompts(); 
+              return; 
             }
   
+            // Update employee's manager
             connection.query(
               "UPDATE employee SET ? WHERE ?",
               [
@@ -420,6 +426,7 @@ const addNewEmployee = () => {
             };
         });
 
+        // Prompt user to enter new employee details
       inquirer
         .prompt([
           {
@@ -430,7 +437,7 @@ const addNewEmployee = () => {
               if (firstNameInput) {
                 return true;
               } else {
-                console.log("Please enter employee's first name!");
+                console.log("\nPlease enter employee's first name!");
                 return false;
               }
             },
@@ -443,7 +450,7 @@ const addNewEmployee = () => {
               if (lastNameInput) {
                 return true;
               } else {
-                console.log("Please enter employee's last name!");
+                console.log("\nPlease enter employee's last name!");
                 return false;
               }
             },
@@ -461,6 +468,7 @@ const addNewEmployee = () => {
             choices: managerChoices, 
           },
         ])
+        // Insert new employee into the database
         .then((data) => {
           connection.query(
             "INSERT INTO employee SET ?",
@@ -475,7 +483,7 @@ const addNewEmployee = () => {
                 console.log(err);
                 return;
               }
-              console.log("Employee has been added!\n");
+              console.log("Employee has been added!");
               viewAllEmployees();
             }
           );
@@ -494,6 +502,7 @@ const addNewRole = () => {
         value: department.id,
       };
     });
+    // Prompt user to enter new role details
     inquirer
       .prompt([
         {
@@ -504,7 +513,7 @@ const addNewRole = () => {
             if (roleTitleInput) {
               return true;
             } else {
-              console.log("Please enter role's title!");
+              console.log("\nPlease enter role's title!");
               return false;
             }
           },
@@ -517,7 +526,7 @@ const addNewRole = () => {
             if (salaryInput) {
               return true;
             } else {
-              console.log("Please enter role's salary!");
+              console.log("\nPlease enter role's salary!");
               return false;
             }
           },
@@ -529,6 +538,7 @@ const addNewRole = () => {
           choices: departments,
         },
       ])
+      // Insert new role into the database
       .then((data) => {
         connection.query(
           "INSERT INTO role SET ?",
@@ -565,6 +575,7 @@ const addNewDepartment = () => {
         },
       },
     ])
+    // Insert new department into the database
     .then((data) => {
       connection.query(
         "INSERT INTO department SET ?",
@@ -590,6 +601,7 @@ const deleteEmployee = () => {
         value: employee.empid,
       };
     });
+    // Prompt user to select an employee to delete
     inquirer
       .prompt([
         {
@@ -606,10 +618,12 @@ const deleteEmployee = () => {
           default: false,
         },
       ])
+      // Check to see if user confirmed deletion
       .then((data) => {
         if (data.confirmation === true) {
           connection.query(
             "DELETE FROM employee WHERE empid = ?",
+            // Delete employee from the database
             [data.deleteEmployee],
             (err) => {
               if (err) throw err;
@@ -635,6 +649,7 @@ const deleteRole = () => {
         value: role.id,
       };
     });
+    // Prompt user to select a role to delete
     inquirer
       .prompt([
         {
@@ -656,6 +671,7 @@ const deleteRole = () => {
         if (data.confirmation === true) {
           connection.query(
             "DELETE FROM role WHERE id = ?",
+            // Delete role from the database
             [data.deleteRole],
             (err) => {
               if (err) throw err;
@@ -681,6 +697,7 @@ const deleteDepartment = () => {
         value: department.id,
       };
     });
+    // Prompt user to select a department to delete
     inquirer
       .prompt([
         {
@@ -702,6 +719,7 @@ const deleteDepartment = () => {
         if (data.confirmation === true) {
           connection.query(
             "DELETE FROM department WHERE id = ?",
+            // Delete department from the database
             [data.deleteDepartment],
             (err) => {
               if (err) throw err;
@@ -734,6 +752,7 @@ const viewTotalBudget = () => {
     departments.push(exitOption);
 
     inquirer
+    // Prompt user to select a department to view total budget
       .prompt([
         {
           type: "list",
@@ -742,11 +761,13 @@ const viewTotalBudget = () => {
           choices: departments,
         },
       ])
+      // Check if user selected the "Exit" option
       .then((data) => {
          if (data.selectDepartment === null) {
            menuPrompts();
            return;
          }
+         // Query to view total utilized budget of a department
         connection.query(
           "SELECT SUM(salary) AS totalBudget FROM role WHERE department_id = ?",
           [data.selectDepartment],
