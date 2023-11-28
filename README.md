@@ -29,9 +29,9 @@ You will also need to add dpendencies, in your terminal type in:
 
 3. `npm i console.table` this package will provide an easy way to log arrays and objects as tables in the console.
 
-4. `npm i dotev` this package will allow you to store configuration setting across different enivironments.
+4. `npm i mysql2` this package will connect to your MySQL database and will perform queries.
 
-5. `npm i mysql2` this package will connect to your MySQL database and will perform queries.
+5. `npm i inquirer` this package will gather the user's input information
 
 ## Technologies
 <p align="center">
