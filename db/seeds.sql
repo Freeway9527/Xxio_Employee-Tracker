@@ -29,27 +29,26 @@ VALUES
 ('Tifa', 'Lockhart', 1),
 ('Cait', 'Sith', 2),
 ('Vincent', 'Valentine', 3),
-('Professor', 'Hojo', 4),
-('Angeal', 'Hewley', 5);
+('Angeal', 'Hewley', 4),
+('Professor', 'Hojo', 5);
 
 
-INSERT INTO employee (first_name, last_name, role_id, reporting_managerID, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, reporting_managerID,  manager_id)
 VALUES
 
-('Tifa', 'Lockhart', 1, NULL, 1),
-('Cait', 'Sith', 2, NULL, 2),
-('Vincent', 'Valentine', 3, NULL, 3),
-('Professor', 'Hojo', 4, NULL, 4),
-('Angeal', 'Hewley', 5, NULL, 5),
-('Cloud', 'Strife', 1, 1, NULL),
-('Barret', 'Wallace', 2, 1, NULL),
-('Aerith', 'Gainsborough', 4, 2, NULL),
-('Red', 'XIII', 5, 2, NULL),
-('Yuffie', 'Kisaragi', 6, 2, NULL),
-('Zack', 'Fair', 10, 10, NULL),
-('Sephiroth', 'Hojo', 12, 10, NULL),
-('Cid', 'Highwind', 9, 3, NULL),
-('Genesis', 'Rhapsodos', 13, NULL);
-
+('Cloud', 'Strife', 1, 1, Null),
+('Barret', 'Wallace', 2, 1, Null),
+('Aerith', 'Gainsborough', 4, 2, Null), 
+('Red', 'XIII', 5, 2, Null),
+('Yuffie', 'Kisaragi', 6, 2, Null),
+('Zack', 'Fair', 10, 5, Null),
+('Sephiroth', 'Hojo', 12, 5, Null),
+('Cid', 'Highwind', 9, 3, Null),
+('Genesis', 'Rhapsodos', 13, 4, Null),
+('Tifa', 'Lockhart', 3, Null, 1) , 
+('Cait', 'Sith', 7, NULL, 2),
+('Vincent', 'Valentine', 8, null, 3),
+('Angeal', 'Hewley', 14, null, 4),
+('Professor', 'Hojo', 11, null, 5);
 
 
